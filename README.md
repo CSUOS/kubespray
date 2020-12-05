@@ -1,3 +1,32 @@
+# Kuberntes Cluster for UOS
+
+## To install
+
+After deploy ssh key to nodes
+
+```bash
+ansible-playbook -i inventory/prod/hosts.yaml  --become --become-user=root cluster.yml
+```
+
+Assuming three nodes with IP addresses of `192.168.2.100`, `192.168.2.101`, and `192.168.2.102`.
+
+## Things to know
+
+1. Kubernetes `v1.19.3`
+2. using `containerd` as a runtime.
+3. using `cilium` as a CNI. ~~(I believe cilium is the future! :-D)~~
+4. can access to a `apiserver` with http://127.0.0.1:8080 **(THIS IS NOT SECURED, AND IT IS INTENDED)**
+5. HELM, Dashboard, and MetalLB is installed by default.
+6. MetalLB will be run as Layer 2 mode, and will use **192.168.2.240 ~ 192.168.2.250**. So, **MAKE SURE NO OTHER DEVICES USING THIS IP ADDRESSES**
+7. `etcd` will be deployed on hosts. (not containerized)
+8. It takes some time for node fail-over. (max 10 min.)
+9. the existing application will run fine until two of three nodes die.
+10. If not all three nodes are not fully functional, you can not use `kubectl`
+
+email me if you have any question. :-)
+
+`iwanhae@gmail.com`
+
 # Deploy a Production Ready Kubernetes Cluster
 
 ![Kubernetes Logo](https://raw.githubusercontent.com/kubernetes-sigs/kubespray/master/docs/img/kubernetes-logo.png)
